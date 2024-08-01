@@ -4,8 +4,8 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.openfeign.EnableFeignClients;
 
-@EnableFeignClients //Permite inyectar el componentes
 @SpringBootApplication
+@EnableFeignClients //Permite inyectar el componentes
 public class SpringbootServicioItemApplication {
 
 	public static void main(String[] args) {
