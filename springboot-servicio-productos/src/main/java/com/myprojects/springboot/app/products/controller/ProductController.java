@@ -8,6 +8,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
+import java.util.concurrent.TimeUnit;
 
 @RestController
 public class ProductController {
@@ -21,7 +22,13 @@ public class ProductController {
     }
 
     @GetMapping("/v1/list/{id}")
-    public Product getProductById(@PathVariable Long id) {
+    public Product getProductById(@PathVariable Long id) throws InterruptedException {
+        if (id.equals(10L)) {
+            throw new IllegalStateException("Producto no encontrado");
+        }
+        if (id.equals(7L)) {
+            TimeUnit.SECONDS.sleep(5L);
+        }
         return iProductService.findById(id);
     }
 }
