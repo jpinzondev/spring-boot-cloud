@@ -8,10 +8,15 @@ import io.github.resilience4j.timelimiter.annotation.TimeLimiter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cloud.client.circuitbreaker.CircuitBreakerFactory;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.concurrent.CompletableFuture;
 
 @RestController
@@ -24,6 +29,12 @@ public class ItemController {
 
     @Autowired
     private ItemService itemService;
+
+    @Value("${configuration.text}")
+    private String text;
+
+    @Value("${server.port}")
+    private String port;
 
     @GetMapping("/v1/list")
     public List<Item> list(
@@ -78,5 +89,14 @@ public class ItemController {
         item.setProduct(product);
         logger.error(e.toString());
         return CompletableFuture.supplyAsync(() ->item);
+    }
+
+    @GetMapping("/get-config")
+    public ResponseEntity<?> getConfig() {
+        logger.info(text);
+        Map<String, String> map = new HashMap<>();
+        map.put("text", text);
+        map.put("port", port);
+        return new ResponseEntity<Map<String, String>>(map, HttpStatus.OK);
     }
 }

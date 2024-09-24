@@ -1,0 +1,23 @@
+server:
+  port: 8888
+
+spring:
+  application:
+    name: config-server
+
+  cloud:
+    config:
+      server:
+        git:
+          uri: file:///C:/tournamentApp/CONFIG/DEFAULT
+          default-label: main
+      allow-override: true
+      override-none: true
+      override-system-properties: false
+
+eureka:
+  client-service-url:
+    defaultZone: http://localhost:8761/eureka/
+  client:
+    register-with-eureka: true
+    fetch-registry: true
